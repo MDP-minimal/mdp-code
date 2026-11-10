@@ -1,0 +1,53 @@
+# exp setting
+exp_name: 'MDP'
+seed: 42 # random seed
+debug: False # debug mode
+devices: [0] # GPU ids, relative to CUDA_VISIBLE_DEVICES
+
+# data related
+load_num_workers: 8 # number of workers for loading data
+preprocess_num_workers: 8
+train_data_path: [ "${oc.env:UNITRAJ_TRAIN_DATA,./data/nuscenes_train_prediction}" ]
+val_data_path: [ "${oc.env:UNITRAJ_VAL_DATA,./data/nuscenes_val_prediction}" ]
+cache_path: "${oc.env:UNITRAJ_CACHE,./cache}"
+max_data_num: [ null ] # maximum number of training samples per dataset
+starting_frame: [ 0 ] # history trajectory starts at this frame
+past_len: 21 # history trajectory length, 2.1s
+future_len: 60 # future trajectory length, 6s
+object_type: [ 'VEHICLE' ]
+line_type: [ 'lane','stop_sign','road_edge','road_line','crosswalk','speed_bump' ]
+masked_attributes: [ 'z_axis', 'size' ]
+trajectory_sample_interval: 1
+remove_outliers: False
+only_train_on_ego: False
+center_offset_of_map: [ 30.0, 0.0 ]
+use_cache: False
+overwrite_cache: False
+store_data_in_memory: False
+
+# official evaluation (external SDK submission is not included)
+nuscenes_dataroot: "${oc.env:UNITRAJ_NUSCENES,./data/nuscenes}"
+eval_nuscenes: False
+eval_waymo: False
+eval_argoverse2: False
+ckpt_path: ${method.default_ckpt_path}
+
+# evaluation of existing native UniTraj H5; null uses build_dataset preprocessing
+h5_dir: ${oc.env:H5_DIR,null}
+save_results: True
+output_dir: ${method.default_output_dir}
+
+# method setting
+defaults:
+  - _self_
+  - method: mdp
+  - override hydra/job_logging: disabled
+  - override hydra/hydra_logging: disabled
+
+# Do not create Hydra logs/config snapshots in addition to the two result groups.
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job:
+    chdir: False

@@ -1,0 +1,13 @@
+torch==2.5.1
+natten==0.17.1
+timm==1.0.22
+numpy
+scipy
+h5py
+omegaconf
+matplotlib
+Pillow
+tqdm
+# Preprocessing additionally requires ScenarioNet and MetaDrive.
+pytorch-lightning==2.6.0
+hydra-core
