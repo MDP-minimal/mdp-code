@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+cache/
+results/
+artifacts/
+scripts/local_paths.sh
+tmp/
+.history/
